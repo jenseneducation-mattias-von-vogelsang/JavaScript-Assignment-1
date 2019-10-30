@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Searchr Flickr Image Searcher</title>
+    <link rel="stylesheet" type="text/css" href="CSS/main.css" />
+  </head>
+  <body>
+    <div class="gridWrap">
+      <form id="searchForm">
+        <h1>Searchr</h1>
+        <h4>The Flickr Searcher</h4>
+        <input
+          type="text"
+          name="searchbar"
+          id="searchbar"
+          placeholder="Enter searchwords..."
+        />
+        <button type="button" id="submit" name="submit">Search</button>
+        <h4>Choose amount of images to be shown</h4>
+        <h5 id="rangeValue"></h5>
+        <input
+          type="range"
+          name="imageRange"
+          id="imageRange"
+          max="100"
+          min="20"
+          value="20"
+        />
+      </form>
+      <div id="imageContainer"></div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
