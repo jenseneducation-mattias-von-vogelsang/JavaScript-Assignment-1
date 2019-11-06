@@ -45,11 +45,10 @@
 
 #imgContainer {
   display: flex;
-  justify-items: space-evenly;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   width: 100%;
   grid-area: img;
-  min-height: 80%;
 }
 
 img {
