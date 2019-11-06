@@ -8,19 +8,20 @@
     <link rel="stylesheet" type="text/css" href="CSS/main.css" />
   </head>
   <body>
+    <a name="top" class="hidden"></a>
     <div class="gridWrap">
       <form id="searchForm">
         <h1>Searchr</h1>
         <h4>The Flickr Searcher</h4>
         <input
           type="text"
-          name="searchbar"
-          id="searchbar"
+          name="search"
+          id="search"
           placeholder="Enter searchwords..."
         />
-        <button type="button" id="submit" name="submit">Search</button>
+        <input id="enterHidden" type="submit" onclick="getPhotos()" />
         <h4>Choose amount of images to be shown</h4>
-        <h5 id="rangeValue"></h5>
+        <h2 id="rangeValue"></h2>
         <input
           type="range"
           name="imageRange"
@@ -29,8 +30,16 @@
           min="20"
           value="20"
         />
+        <button type="button" id="submit" onclick="getPhotos()" name="submit">
+          Search
+        </button>
       </form>
-      <div id="imageContainer"></div>
+      <div id="imgContainer"></div>
+      <footer class="tmu">
+        <a href="#top">
+          <p><i class="arrow up"></i></p>
+        </a>
+      </footer>
     </div>
     <script src="main.js"></script>
   </body>
