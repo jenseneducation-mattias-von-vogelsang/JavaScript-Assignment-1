@@ -15,7 +15,6 @@ async function getPhotos() {
   let search = document.getElementById("search").value;
   const baseURL = "https://api.flickr.com/services/rest";
   let imgAmount = slider.value;
-
   let url =
     baseURL +
     "?api_key=" +
@@ -32,7 +31,6 @@ async function getPhotos() {
   try {
     let response = await fetch(url);
     let data = await response.json();
-    console.log(data);
     showImages(data);
   } catch (err) {
     console.error(err);
@@ -53,11 +51,9 @@ function showImages(data) {
   console.log(data.photos.photo.length);
   let imgContainer = document.getElementById("imgContainer");
   imgContainer.innerHTML = "";
-
   for (var i = 0; i < data.photos.photo.length; i++) {
     let img = createNode("img");
     let info = createNode("p");
-    //console.log(data.photos.photo[i].id);
     let t_url =
       "http://farm" +
       data.photos.photo[i].farm +
@@ -69,17 +65,16 @@ function showImages(data) {
       data.photos.photo[i].secret +
       ".jpg";
     console.log(t_url);
+    console.log(data);
     let p_url =
       "http://www.flickr.com/photos/" +
       data.photos.photo[i].owner +
       "/" +
       data.photos.photo[i].id;
-
-    console.log(p_url);
+    info = p_url;
     img.setAttribute("src", t_url);
     img.setAttribute("alt", data.photos.photo[i].title);
     append(imgContainer, img);
-    console.log(p_url);
   }
 }
 

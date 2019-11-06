@@ -11,17 +11,18 @@
     <a name="top" class="hidden"></a>
     <div class="gridWrap">
       <form id="searchForm">
-        <h1>Searchr</h1>
-        <h4>The Flickr Searcher</h4>
+        <h1 class="arimo">Searchr</h1>
+        <h4 class="dosis">The Flickr Searcher</h4>
         <input
+          class="dosis"
           type="text"
           name="search"
           id="search"
           placeholder="Enter searchwords..."
         />
         <input id="enterHidden" type="submit" onclick="getPhotos()" />
-        <h4>Choose amount of images to be shown</h4>
-        <h2 id="rangeValue"></h2>
+        <h4 class="dosis">Choose amount of images to be shown</h4>
+        <h2 id="rangeValue" class="arimo"></h2>
         <input
           type="range"
           name="imageRange"
@@ -30,7 +31,13 @@
           min="20"
           value="20"
         />
-        <button type="button" id="submit" onclick="getPhotos()" name="submit">
+        <button
+          class="dosis"
+          type="button"
+          id="submit"
+          onclick="getPhotos()"
+          name="submit"
+        >
           Search
         </button>
       </form>

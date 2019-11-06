@@ -1,6 +1,18 @@
+@import url("https://fonts.googleapis.com/css?family=Arimo|Dosis&display=swap");
+
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
+
+.dosis {
+  font-family: "Dosis", sans-serif;
+}
+
+.arimo {
+  font-family: "Arimo", sans-serif;
+}
+
 .gridWrap {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
