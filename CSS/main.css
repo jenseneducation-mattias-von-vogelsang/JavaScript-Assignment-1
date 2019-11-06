@@ -79,11 +79,13 @@ i {
 }
 
 #imgContainer img {
+  transform: scale(0.8);
   -webkit-transform: scale(
     0.8
   ); /*Webkit: Scale down image to 0.8x original size*/
   -moz-transform: scale(0.8); /*Mozilla scale version*/
   -o-transform: scale(0.8); /*Opera scale version*/
+  transition-duration: 0.5s;
   -webkit-transition-duration: 0.5s; /*Webkit: Animation duration*/
   -moz-transition-duration: 0.5s; /*Mozilla duration version*/
   -o-transition-duration: 0.5s; /*Opera duration version*/
@@ -92,6 +94,7 @@ i {
 }
 
 #imgContainer img:hover {
+  transform: scale(1);
   -webkit-transform: scale(1); /*Webkit: Scale up image to 1.2x original size*/
   -moz-transform: scale(1.1); /*Mozilla scale version*/
   -o-transform: scale(1.1); /*Opera scale version*/
