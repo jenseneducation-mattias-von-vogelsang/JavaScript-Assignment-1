@@ -37,7 +37,6 @@ a {
   align-items: center;
   flex-direction: column;
   grid-area: search;
-  column-span: 2;
 }
 
 #search {
@@ -97,11 +96,17 @@ button:focus {
 
 #imgContainer {
   display: flex;
-  justify-content: space-evenly;
   flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
   width: 100%;
-  margin-left: 5px;
   grid-area: img;
+}
+
+#imgContainer img {
+  height: 200px;
+  width: 200px;
+  margin: 5px;
 }
 
 img {
@@ -129,32 +134,6 @@ i {
 .hidden {
   padding: 0;
   margin: 0;
-}
-
-#imgContainer img {
-  transform: scale(0.8);
-  -webkit-transform: scale(
-    0.8
-  ); /*Webkit: Scale down image to 0.8x original size*/
-  -moz-transform: scale(0.8); /*Mozilla scale version*/
-  -o-transform: scale(0.8); /*Opera scale version*/
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s; /*Webkit: Animation duration*/
-  -moz-transition-duration: 0.5s; /*Mozilla duration version*/
-  -o-transition-duration: 0.5s; /*Opera duration version*/
-  opacity: 0.7; /*initial opacity of images*/
-  margin: 0 10px 5px 0; /*margin between images*/
-}
-
-#imgContainer img:hover {
-  transform: scale(1);
-  -webkit-transform: scale(1); /*Webkit: Scale up image to 1.2x original size*/
-  -moz-transform: scale(1.1); /*Mozilla scale version*/
-  -o-transform: scale(1.1); /*Opera scale version*/
-  box-shadow: 0px 0px 30px gray; /*CSS3 shadow: 30px blurred shadow all around image*/
-  -webkit-box-shadow: 0px 0px 30px gray; /*Safari shadow version*/
-  -moz-box-shadow: 0px 0px 30px gray; /*Mozilla shadow version*/
-  opacity: 1;
 }
 
 /*** LIGHTBOX ***/
@@ -234,10 +213,35 @@ i {
 
 /*** Add responsiveness for other devices ***/
 
+@media (min-width: 1024px) {
+  #imgContainer img {
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s; /*Webkit: Animation duration*/
+    -moz-transition-duration: 0.5s; /*Mozilla duration version*/
+    -o-transition-duration: 0.5s; /*Opera duration version*/
+    opacity: 0.7; /*initial opacity of images*/
+    margin: 10px;
+  }
+
+  #imgContainer img:hover {
+    transform: scale(2);
+    -webkit-transform: scale(
+      1.1,
+      1.1
+    ); /*Webkit: Scale up image to 1.2x original size*/
+    -moz-transform: scale(1.1, 1.1); /*Mozilla scale version*/
+    -o-transform: scale(1.1, 1.1); /*Opera scale version*/
+    box-shadow: 0px 0px 30px gray; /*CSS3 shadow: 30px blurred shadow all around image*/
+    -webkit-box-shadow: 0px 0px 30px gray; /*Safari shadow version*/
+    -moz-box-shadow: 0px 0px 30px gray; /*Mozilla shadow version*/
+    opacity: 1;
+  }
+}
+
 @media (max-width: 480px) {
   .gridWrap {
     grid-template-areas:
-      "search search search  search search search"
+      "search search search search search search"
       ". img img img img ."
       ". img img img img ."
       ". . footer footer . .";
