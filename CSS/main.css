@@ -43,6 +43,7 @@ a {
   padding: 1.5em;
   width: 80%;
   font-size: 1em;
+  border: 1px solid grey;
 }
 
 #imageRange {

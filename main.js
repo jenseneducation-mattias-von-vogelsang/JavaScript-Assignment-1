@@ -1,26 +1,27 @@
 // Declare global variables and bind them to html elements by ID
-var slider = document.getElementById("imageRange");
-var output = document.getElementById("rangeValue");
+let slider = document.getElementById("imageRange");
+let output = document.getElementById("rangeValue");
 
 // Display the slider value for amount of images to be shown
 output.innerHTML = slider.value;
 
 // Update the current slider value (each time you drag the slider handle)
+// This.value since slider is parent
 slider.oninput = function() {
   output.innerHTML = this.value;
 };
 
-//Initialize 2 empty arrays to display imgages + image title in lightbox
+// Initialize 2 empty arrays to display images + image title in lightbox
 let lightboxPhotos = [];
 let lightboxTitles = [];
 
 // Find the lightbox overlay
-var wrapper = document.getElementById("lightboxWrapper");
+let wrapper = document.getElementById("lightboxWrapper");
 
-// Find navigation controls
-var dismiss = document.getElementById("lightboxDismiss");
-var prev = document.getElementById("lightboxPrev");
-var next = document.getElementById("lightboxNext");
+// Find lightbox navigation controls
+let dismiss = document.getElementById("lightboxDismiss");
+let prev = document.getElementById("lightboxPrev");
+let next = document.getElementById("lightboxNext");
 
 // Fetch function with async to get data via API
 async function getPhotos() {
@@ -60,9 +61,9 @@ function showPhotos(data) {
   let photos = data["photos"].photo;
   let index;
 
-  // For loop that loops the same length as array sent back from API
+  // For loop that loops the same length as array retrieved from API
   for (index = 0; index < photos.length; index++) {
-    // Create HTML-element of type img
+    // Create HTML-element of type img and bind it to variable img
     let img = createNode("img");
 
     // Build img src url with the information sent back from API
@@ -75,19 +76,19 @@ function showPhotos(data) {
     // Add class element so I can reach it later
     img.setAttribute("class", "thumbnail");
 
-    // Set data-index attribute so navigation with next or previous in lightbox works
-    img.setAttribute("data-index", index);
+    // Set custom data-id attribute so navigation with next & previous in lightbox works
+    img.setAttribute("data-id", index);
 
     // Nest the image inside the container
     append(imgContainer, img);
 
     // Add eventlistener on click to each img
     img.addEventListener("click", function() {
-      // Call the lightbox function with the data-id of the img that is clicked
-      lightbox(this.getAttribute("data-index"));
+      // Call the lightbox function with the data-id of the img that is clicked as attribute
+      lightbox(this.getAttribute("data-id"));
     });
 
-    // load lightbox with data retrieved from API
+    // load lightbox with data retrieved from API aswell as index number from for loop
     loadLightbox(photos, index);
   }
 }
@@ -108,7 +109,7 @@ function loadLightbox(data, index) {
   lightboxTitles.push(flickrTitle);
 }
 
-// Function that activates the modal window, takes image as parameter
+// Function that activates the modal window, takes dataID as parameter
 function lightbox(dataID) {
   var theImage = lightboxPhotos[dataID];
   var theTitle = lightboxTitles[dataID];
@@ -120,8 +121,8 @@ function lightbox(dataID) {
   wrapper.setAttribute("class", "active");
 
   // Append previous and next data to the controls
-  // Navigate through img data-index with data-id I set earlier
-  // Using the current image +- 1 for next/prev
+  // Navigate through next and previous by using current dataID
+  // Using the current image +- 1 for next/prev, working with its onclick function
   prev.setAttribute("data-prev", parseInt(dataID) - 1);
   next.setAttribute("data-next", parseInt(dataID) + 1);
 
@@ -129,7 +130,7 @@ function lightbox(dataID) {
   document.getElementById("lightboxImageContainer").innerHTML = theImage;
   document.getElementById("lightboxImageTitle").innerHTML = theTitle;
 
-  // If statements that removes the lightbox next navigator at last image
+  // If statement that removes the lightbox next navigator at last image
   if (parseInt(dataID) === lightboxPhotos.length - 1) {
     next.style.display = "none";
 
@@ -142,8 +143,8 @@ function lightbox(dataID) {
   }
 
   // Add eventlistener so that if you click away from the image, lightbox closes (By changing class to inactive)
-  wrapper.addEventListener("click", e => {
-    if (e.target !== e.currentTarget) {
+  wrapper.addEventListener("click", event => {
+    if (event.target !== event.currentTarget) {
       return;
     }
     wrapper.setAttribute("class", "inactive");
@@ -160,6 +161,7 @@ dismiss.onclick = function() {
 prev.onclick = function() {
   var prevImgID = this.getAttribute("data-prev");
   if (prevImgID >= 0) {
+    // Call lightbox with new Data-ID (previous) as attribute
     lightbox(prevImgID);
   }
 };
@@ -167,5 +169,6 @@ prev.onclick = function() {
 // Onclick event used to go to next image in lightbox
 next.onclick = function() {
   var nextImgID = this.getAttribute("data-next");
+  // Call lightbox with new Data-ID (next) as attribute
   lightbox(nextImgID);
 };
