@@ -86,9 +86,6 @@ function showPhotos(data) {
     img.setAttribute("src", t_url);
     img.setAttribute("alt", photos[index].title);
 
-    // Add class element so I can reach it later
-    img.setAttribute("class", "thumbnail");
-
     // Set custom data-id attribute so navigation with next & previous in lightbox works
     img.setAttribute("data-id", index);
 
