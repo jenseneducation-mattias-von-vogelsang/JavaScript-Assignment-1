@@ -25,15 +25,28 @@ let next = document.getElementById("lightboxNext");
 
 // Fetch function with async to get data via API
 async function getPhotos() {
-  const apiKey = "0e6f1413c3b36764051548d54b6d5cff"; // Declare variables that build the URL sent to API
+  // Declare variables that build the URL sent to API
+  const apiKey = "0e6f1413c3b36764051548d54b6d5cff";
   let method = "flickr.photos.search";
-  let search = document.getElementById("search").value; // Decides what text String to send to API, based on input
+
+  // Decides what text String to send to API, based on input
+  let search = document.getElementById("search").value;
   const baseURL = "https://api.flickr.com/services/rest";
-  let imgAmount = slider.value; // Decides number of images shown, based on slider value
+
+  // Decides number of images shown, based on slider value
+  let imgAmount = slider.value;
+
+  // Build URL for API with custom arguments
   let url = `${baseURL}?api_key=${apiKey}&method=${method}&text=${search}&per_page=${imgAmount}&format=json&nojsoncallback=1&safe_search=1&sort=relevance`;
-  let response = await fetch(url); // Fetch API data with the URL built above
-  let data = await response.json(); // Access the JSON response so it can be reached with JS
-  showPhotos(data); // Call the function to show images and use the API data received
+
+  // Fetch API data with the URL built above
+  let response = await fetch(url);
+
+  // Access the JSON response so it can be reached with JS
+  let data = await response.json();
+
+  // Call the function to show images and use the API data received as argument
+  showPhotos(data);
 }
 
 // Function used to create the type of element you pass in the parameters
@@ -84,7 +97,7 @@ function showPhotos(data) {
 
     // Add eventlistener on click to each img
     img.addEventListener("click", function() {
-      // Call the lightbox function with the data-id of the img that is clicked as attribute
+      // Call the lightbox function with the data-id of the img that is clicked as argument
       lightbox(this.getAttribute("data-id"));
     });
 
@@ -161,7 +174,7 @@ dismiss.onclick = function() {
 prev.onclick = function() {
   var prevImgID = this.getAttribute("data-prev");
   if (prevImgID >= 0) {
-    // Call lightbox with new Data-ID (previous) as attribute
+    // Call lightbox with new Data-ID (previous) as argument
     lightbox(prevImgID);
   }
 };
@@ -169,6 +182,6 @@ prev.onclick = function() {
 // Onclick event used to go to next image in lightbox
 next.onclick = function() {
   var nextImgID = this.getAttribute("data-next");
-  // Call lightbox with new Data-ID (next) as attribute
+  // Call lightbox with new Data-ID (next) as argument
   lightbox(nextImgID);
 };
