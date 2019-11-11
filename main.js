@@ -10,7 +10,7 @@ slider.oninput = function() {
   output.innerHTML = this.value;
 };
 
-//Create 2 arrays to help display imgages + image title in lightbox
+//Initialize 2 empty arrays to display imgages + image title in lightbox
 let lightboxPhotos = [];
 let lightboxTitles = [];
 
@@ -83,7 +83,7 @@ function showPhotos(data) {
 
     // Add eventlistener on click to each img
     img.addEventListener("click", function() {
-      // Call the lightbox function with the data-index of the img that is clicked
+      // Call the lightbox function with the data-id of the img that is clicked
       lightbox(this.getAttribute("data-index"));
     });
 
@@ -97,7 +97,7 @@ function showPhotos(data) {
 
 // Function to push photos & photo titles into arrays, using data and index
 function loadLightbox(data, index) {
-  // Initialize an img variable that creates an image element with src, alt and data-id
+  // Initialize a variable that creates an image element with src, alt and data-id
   let flickrURL = `<img src="http://farm${data[index].farm}.static.flickr.com/${data[index].server}/${data[index].id}_${data[index].secret}.jpg" alt="${data[index].title}" data-id"${index}"/>`;
   let flickrTitle = data[index].title;
 
@@ -109,9 +109,12 @@ function loadLightbox(data, index) {
 }
 
 // Function that activates the modal window, takes image as parameter
-function lightbox(image) {
-  var theImage = lightboxPhotos[image];
-  var theTitle = lightboxTitles[image];
+function lightbox(dataID) {
+  var theImage = lightboxPhotos[dataID];
+  var theTitle = lightboxTitles[dataID];
+
+  // Print to console to help show img elements attribute data id value
+  console.log(dataID);
 
   // Set lightboxwrapper class active
   wrapper.setAttribute("class", "active");
@@ -119,22 +122,19 @@ function lightbox(image) {
   // Append previous and next data to the controls
   // Navigate through img data-index with data-id I set earlier
   // Using the current image +- 1 for next/prev
-  prev.setAttribute("data-prev", parseInt(image) - 1);
-  next.setAttribute("data-next", parseInt(image) + 1);
+  prev.setAttribute("data-prev", parseInt(dataID) - 1);
+  next.setAttribute("data-next", parseInt(dataID) + 1);
 
   // Updates the lightbox to show current image & title
   document.getElementById("lightboxImageContainer").innerHTML = theImage;
   document.getElementById("lightboxImageTitle").innerHTML = theTitle;
 
-  // Shows the current image data-id
-  console.log(parseInt(image));
-
   // If statements that removes the lightbox next navigator at last image
-  if (parseInt(image) === lightboxPhotos.length - 1) {
+  if (parseInt(dataID) === lightboxPhotos.length - 1) {
     next.style.display = "none";
 
     // Else if statement that removes lightbox prev navigator at first image
-  } else if (parseInt(image) === 0) {
+  } else if (parseInt(dataID) === 0) {
     prev.style.display = "none";
   } else {
     next.style.display = "block";
@@ -158,15 +158,14 @@ dismiss.onclick = function() {
 
 // Onclick event used to go to previous image in lightbox
 prev.onclick = function() {
-  var prevImg = this.getAttribute("data-prev");
-  if (prevImg >= 0) {
-    lightbox(prevImg);
+  var prevImgID = this.getAttribute("data-prev");
+  if (prevImgID >= 0) {
+    lightbox(prevImgID);
   }
 };
 
 // Onclick event used to go to next image in lightbox
 next.onclick = function() {
-  var nextImg = this.getAttribute("data-next");
-  console.log(lightboxPhotos.length);
-  lightbox(nextImg);
+  var nextImgID = this.getAttribute("data-next");
+  lightbox(nextImgID);
 };
