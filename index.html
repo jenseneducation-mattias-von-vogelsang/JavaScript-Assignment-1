@@ -9,6 +9,25 @@
   </head>
   <body>
     <a name="top" class="hidden"></a>
+    <div class="inactive" id="lightboxWrapper">
+      <div class="lightboxContent">
+        <a href="#" class="lightboxNav lightboxNavDismiss" id="lightboxDismiss"
+          >&#x2715;</a
+        >
+
+        <a href="#" class="lightboxNav lightboxNavPrev" id="lightboxPrev"
+          >Previous</a
+        >
+
+        <a href="#" class="lightboxNav lightboxNavNext" id="lightboxNext"
+          >Next
+        </a>
+
+        <div class="lightboxImage" id="lightboxImageContainer"></div>
+
+        <div class="lightboxImageTitle dosis" id="lightboxImageTitle"></div>
+      </div>
+    </div>
     <div class="gridWrap">
       <form id="searchForm">
         <h1 class="arimo">Searchr</h1>
@@ -41,7 +60,7 @@
           Search
         </button>
       </form>
-      <div id="imgContainer"></div>
+      <section id="imgContainer"></section>
       <footer class="tmu">
         <a href="#top">
           <p><i class="arrow up"></i></p>
