@@ -1,14 +1,17 @@
 // Declare global variables and bind them to html elements by ID
 var slider = document.getElementById("imageRange");
 var output = document.getElementById("rangeValue");
-output.innerHTML = slider.value; // Display the slider value for amount of images to be shown
 
+// Display the slider value for amount of images to be shown
+output.innerHTML = slider.value;
+
+// Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
-  // Update the current slider value (each time you drag the slider handle)
   output.innerHTML = this.value;
 };
 
-let lightboxPhotos = []; //Create 2 arrays to help display imgages + image title in lightbox
+//Create 2 arrays to help display imgages + image title in lightbox
+let lightboxPhotos = [];
 let lightboxTitles = [];
 
 // Find the lightbox overlay
@@ -19,11 +22,11 @@ var dismiss = document.getElementById("lightboxDismiss");
 var prev = document.getElementById("lightboxPrev");
 var next = document.getElementById("lightboxNext");
 
+// Fetch function with async to get data via API
 async function getPhotos() {
-  // Fetch function with async to get data via API
   const apiKey = "0e6f1413c3b36764051548d54b6d5cff"; // Declare variables that build the URL sent to API
   let method = "flickr.photos.search";
-  let search = document.getElementById("search").value; // Decides what text String to send to API
+  let search = document.getElementById("search").value; // Decides what text String to send to API, based on input
   const baseURL = "https://api.flickr.com/services/rest";
   let imgAmount = slider.value; // Decides number of images shown, based on slider value
   let url = `${baseURL}?api_key=${apiKey}&method=${method}&text=${search}&per_page=${imgAmount}&format=json&nojsoncallback=1&safe_search=1&sort=relevance`;
@@ -32,54 +35,77 @@ async function getPhotos() {
   showPhotos(data); // Call the function to show images and use the API data received
 }
 
+// Function used to create the type of element you pass in the parameters
 function createNode(element) {
-  // Function used to create the type of element you pass in the parameters
   return document.createElement(element);
 }
-
+// Function used to append the second parameter(element) to the first one
 function append(parent, el) {
-  // Function used to append the second parameter(element) to the first one
   return parent.appendChild(el);
 }
 
+// Function that retrieves data from API and creates IMG elements and appends them to IMG Container
 function showPhotos(data) {
-  // http://farm{id}.static.flickr.com/{server-id}/{id}_{secret}_[mstb].jpg
-  // http://www.flickr.com/photos/{user-id}/{photo-id}
-  console.log(data.photos.photo.length);
-  lightboxPhotos = []; // Clear previous lightbox arrays for new search
+  // Clear previous lightbox arrays for new search
+  lightboxPhotos = [];
   lightboxTitles = [];
-  let imgContainer = document.getElementById("imgContainer"); // Declare variable and bind it to imgcontainer
-  imgContainer.innerHTML = ""; // Clear previous searches
-  let photos = data["photos"].photo; // Create variable that takes over data received from API
+
+  // Declare variable and bind it to imgcontainer
+  let imgContainer = document.getElementById("imgContainer");
+
+  // Clear previous searches
+  imgContainer.innerHTML = "";
+
+  // initialize variable that takes over photo information, easier to navigate with it
+  let photos = data["photos"].photo;
   let index;
+
+  // For loop that loops the same length as array sent back from API
   for (index = 0; index < photos.length; index++) {
-    // For loops that loops the same length as array sent back from API
-    let img = createNode("img"); // Create element of type img
+    // Create HTML-element of type img
+    let img = createNode("img");
+
     // Build img src url with the information sent back from API
     let t_url = `http://farm${photos[index].farm}.static.flickr.com/${photos[index].server}/${photos[index].id}_${photos[index].secret}_m.jpg`;
-    img.setAttribute("src", t_url); // Set attributes of the img element created
+
+    // Set attributes of the img element created
+    img.setAttribute("src", t_url);
     img.setAttribute("alt", photos[index].title);
-    img.setAttribute("class", "thumbnail"); // Add class element so I can reach it later
-    img.setAttribute("data-index", index); // Set data-index attribute so we can go next or previous in lightbox
-    append(imgContainer, img); // Nest the image inside the container
+
+    // Add class element so I can reach it later
+    img.setAttribute("class", "thumbnail");
+
+    // Set data-index attribute so navigation with next or previous in lightbox works
+    img.setAttribute("data-index", index);
+
+    // Nest the image inside the container
+    append(imgContainer, img);
+
+    // Add eventlistener on click to each img
     img.addEventListener("click", function() {
-      // Set eventlistener to each img
       // Call the lightbox function with the data-index of the img that is clicked
       lightbox(this.getAttribute("data-index"));
     });
-    loadLightbox(photos, index); // load lightbox with data retrieved from API
+
+    // load lightbox with data retrieved from API
+    loadLightbox(photos, index);
   }
 }
 
 //API KEY: 0e6f1413c3b36764051548d54b6d5cff
 //SECRET: eaafccd22a4f5a6a
 
-// Function to push photos & photo titles into arrays
+// Function to push photos & photo titles into arrays, using data and index
 function loadLightbox(data, index) {
+  // Initialize an img variable that creates an image element with src, alt and data-id
   let flickrURL = `<img src="http://farm${data[index].farm}.static.flickr.com/${data[index].server}/${data[index].id}_${data[index].secret}.jpg" alt="${data[index].title}" data-id"${index}"/>`;
   let flickrTitle = data[index].title;
-  lightboxPhotos.push(flickrURL); //Add images to the lightbox Array
-  lightboxTitles.push(flickrTitle); // Add image title to the title array
+
+  //Add images to the lightbox Array
+  lightboxPhotos.push(flickrURL);
+
+  // Add image title to the title array
+  lightboxTitles.push(flickrTitle);
 }
 
 // Function that activates the modal window, takes image as parameter
@@ -87,25 +113,36 @@ function lightbox(image) {
   var theImage = lightboxPhotos[image];
   var theTitle = lightboxTitles[image];
 
-  wrapper.setAttribute("class", "active"); // Makes lightboxwrapper active
-  // append previous and next data to the controls
-  prev.setAttribute("data-prev", parseInt(image) - 1); // Navigate through img data-index with data-id I set earlier
-  next.setAttribute("data-next", parseInt(image) + 1); // Using the current image +- 1 for next/prev
-  document.getElementById("lightboxImageContainer").innerHTML = theImage; // Updates current lightbox img shown
+  // Set lightboxwrapper class active
+  wrapper.setAttribute("class", "active");
+
+  // Append previous and next data to the controls
+  // Navigate through img data-index with data-id I set earlier
+  // Using the current image +- 1 for next/prev
+  prev.setAttribute("data-prev", parseInt(image) - 1);
+  next.setAttribute("data-next", parseInt(image) + 1);
+
+  // Updates the lightbox to show current image & title
+  document.getElementById("lightboxImageContainer").innerHTML = theImage;
   document.getElementById("lightboxImageTitle").innerHTML = theTitle;
-  console.log(parseInt(image)); // Shows the current image data-id
+
+  // Shows the current image data-id
+  console.log(parseInt(image));
+
+  // If statements that removes the lightbox next navigator at last image
   if (parseInt(image) === lightboxPhotos.length - 1) {
-    // If statements that removes "next" at last image
     next.style.display = "none";
+
+    // Else if statement that removes lightbox prev navigator at first image
   } else if (parseInt(image) === 0) {
-    // Else if statement that removes "prev" at first image
     prev.style.display = "none";
   } else {
     next.style.display = "block";
     prev.style.display = "block";
   }
+
+  // Add eventlistener so that if you click away from the image, lightbox closes (By changing class to inactive)
   wrapper.addEventListener("click", e => {
-    // Add eventlistener so that if you click away from the image, lightbox closes (By changing class to inactive)
     if (e.target !== e.currentTarget) {
       return;
     }
