@@ -23,13 +23,13 @@ let dismiss = document.getElementById("lightboxDismiss");
 let prev = document.getElementById("lightboxPrev");
 let next = document.getElementById("lightboxNext");
 
-// Fetch function with async to get data via API
+// Async function with await on fetch to get data via API request
 async function getPhotos() {
-  // Declare variables that build the URL sent to API
+  // Initialize variables that build the URL sent to API
   const apiKey = "0e6f1413c3b36764051548d54b6d5cff";
   let method = "flickr.photos.search";
 
-  // Decides what text String to send to API, based on input
+  // Decide what text String to send to API, based on input
   let search = document.getElementById("search").value;
   const baseURL = "https://api.flickr.com/services/rest";
 
@@ -70,7 +70,8 @@ function showPhotos(data) {
   // Clear previous searches
   imgContainer.innerHTML = "";
 
-  // initialize variable that takes over photo information, easier to navigate with it
+  // Initialize variable that takes over photo information, easier to navigate with it
+  // Instead of data.photos.photo[].farm etc
   let photos = data["photos"].photo;
   let index;
 
@@ -131,8 +132,8 @@ function lightbox(dataID) {
   wrapper.setAttribute("class", "active");
 
   // Append previous and next data to the controls
-  // Navigate through next and previous by using current dataID
-  // Using the current image +- 1 for next/prev, working with its onclick function
+  // Navigate through next and previous by using current dataID and setting new +/-1 attributes to anchor
+  // navigation controls. Prev / Next onclick function calls lightbox function to update current dataID
   prev.setAttribute("data-prev", parseInt(dataID) - 1);
   next.setAttribute("data-next", parseInt(dataID) + 1);
 
