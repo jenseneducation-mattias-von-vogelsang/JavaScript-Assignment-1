@@ -27,7 +27,7 @@ let next = document.getElementById("lightboxNext");
 async function getPhotos() {
   // Initialize variables that build the URL sent to API
   const apiKey = "0e6f1413c3b36764051548d54b6d5cff";
-  let method = "flickr.photos.search";
+  const method = "flickr.photos.search";
 
   // Decide what text String to send to API, based on input
   let search = document.getElementById("search").value;
@@ -122,8 +122,8 @@ function loadLightbox(data, index) {
 
 // Function that activates the modal window, takes dataID as parameter
 function lightbox(dataID) {
-  var theImage = lightboxPhotos[dataID];
-  var theTitle = lightboxTitles[dataID];
+  let theImage = lightboxPhotos[dataID];
+  let theTitle = lightboxTitles[dataID];
 
   // Print to console to help show img elements attribute data id value
   console.log(dataID);
@@ -170,7 +170,7 @@ dismiss.onclick = function() {
 
 // Onclick event used to go to previous image in lightbox
 prev.onclick = function() {
-  var prevImgID = this.getAttribute("data-prev");
+  let prevImgID = this.getAttribute("data-prev");
   if (prevImgID >= 0) {
     // Call lightbox with new Data-ID (previous) as argument
     lightbox(prevImgID);
@@ -179,7 +179,7 @@ prev.onclick = function() {
 
 // Onclick event used to go to next image in lightbox
 next.onclick = function() {
-  var nextImgID = this.getAttribute("data-next");
+  let nextImgID = this.getAttribute("data-next");
   // Call lightbox with new Data-ID (next) as argument
   lightbox(nextImgID);
 };
